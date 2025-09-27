@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Orça+</title>
+
+{% load static %}
+
+<script src="{% static 'dashboard/dashboard.js' %}"></script> 
+<link rel="stylesheet" href="{% static 'dashboard/dashboard.css' %}"> 
+
+</head>
+
+<body>
+  
+  <header>
+    <h1><img src="logo.png" alt="logo"></h1>
+  </header>
+
+  <main class="dashboard">
+    <!-- NOVA TRANSAÇÃO -->
+    <section class="card transacao">
+      <h2>➕ Adicionar Nova Transação <span class="limpar">🧹 Limpar</span></h2>
+      <form id="form-transacao">
+        <div class="tipo">
+          <label><input type="radio" name="tipo" value="receita" checked> Receita</label>
+          <label><input type="radio" name="tipo" value="despesa"> Despesa</label>
+        </div>
+        <label>Valor
+          <input type="number" id="valor" value="0">
+        </label>
+        <label>Categoria
+          <select id="categoria">
+            <option disabled selected>Selecione uma categoria</option>
+            <option>Salário</option>
+            <option>Freelance</option>
+            <option>Investimento</option>
+            <option>Supermercado</option>
+            <option>Compras</option>
+            <option>Transporte</option>
+            <option>Entretenimento</option>
+            <option>Educação</option>
+            <option>Outro</option>
+          </select>
+        </label>
+        <label>Descrição (Opcional)
+          <input type="text" id="descricao" placeholder="ex: Almoço com colegas">
+        </label>
+        <label>Data
+          <input type="date" id="data">
+        </label>
+        <button type="submit" class="btn">Adicionar Transação</button>
+      </form>
+    </section>
+
+    <!-- VALORES -->
+    <section class="resumo">
+      <div class="card resumo-card receita">
+        <p>Receita Total</p>
+        <h3 id="receita-total">R$0.00</h3>
+      </div>
+      <div class="card resumo-card despesa">
+        <p>Despesa Total</p>
+        <h3 id="despesa-total">R$0.00</h3>
+      </div>
+      <div class="card resumo-card saldo">
+        <p>Saldo Atual</p>
+        <h3 id="saldo-atual">R$0.00</h3>
+      </div>
+    </section>
+
+    <section class="graficos-container">
+      <div class="graficos-grafico">
+        <h2>📊 Despesas por Categoria</h2>
+        <canvas id="grafico-categorias-despesa"></canvas>
+      </div>
+      <div class="graficos-grafico">
+        <h2>📊 Receitas por Categoria</h2>
+        <canvas id="grafico-categorias-receita"></canvas>
+      </div>
+      <div class="graficos-grafico">
+        <h2>📈 Receitas vs. Despesas Diárias</h2>
+        <canvas id="grafico-linhas"></canvas>
+      </div>
+    </section>
+
+    <!-- TRANSAÇÕES RECENTES -->
+    <section class="card tabela">
+      <h2>📝 Transações Recentes</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Tipo</th>
+            <th>Categoria</th>
+            <th>Valor</th>
+            <th>Descrição</th>
+          </tr>
+        </thead>
+        <tbody id="lista-transacoes">
+          <tr>
+            <td colspan="5" class="placeholder">Nenhuma transação encontrada.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  {% load static %}
+<script src="{% static 'dashboard/dashboard.js' %}"></script>
+
+</body>
+</html>
