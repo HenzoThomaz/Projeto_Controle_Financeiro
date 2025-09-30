@@ -20,52 +20,47 @@
   <main class="dashboard">
     <!-- NOVA TRANSAÇÃO -->
     <section class="card transacao">
-      <h2>➕ Adicionar Nova Transação <span class="limpar">🧹 Limpar</span></h2>
-      <form id="form-transacao">
+      <h2>➕ Adicionar Nova Transação</h2>
+      <form method="post">
+        {% csrf_token %}
         <div class="tipo">
-          <label><input type="radio" name="tipo" value="receita" checked> Receita</label>
-          <label><input type="radio" name="tipo" value="despesa"> Despesa</label>
+          {{ form.tipo }}  <!-- Django renderiza os radios -->
         </div>
+
         <label>Valor
-          <input type="number" id="valor" value="0">
+          {{ form.valor }}
         </label>
+
         <label>Categoria
-          <select id="categoria">
-            <option disabled selected>Selecione uma categoria</option>
-            <option>Salário</option>
-            <option>Freelance</option>
-            <option>Investimento</option>
-            <option>Supermercado</option>
-            <option>Compras</option>
-            <option>Transporte</option>
-            <option>Entretenimento</option>
-            <option>Educação</option>
-            <option>Outro</option>
-          </select>
+          {{ form.categoria }}
         </label>
+
         <label>Descrição (Opcional)
-          <input type="text" id="descricao" placeholder="ex: Almoço com colegas">
+          {{ form.descricao }}
         </label>
+
         <label>Data
-          <input type="date" id="data">
+          {{ form.data }}
         </label>
+
         <button type="submit" class="btn">Adicionar Transação</button>
       </form>
+
     </section>
 
     <!-- VALORES -->
     <section class="resumo">
       <div class="card resumo-card receita">
         <p>Receita Total</p>
-        <h3 id="receita-total">R$0.00</h3>
+        <h3 id="receita-total">R${{ receita_total }}</h3>
       </div>
       <div class="card resumo-card despesa">
         <p>Despesa Total</p>
-        <h3 id="despesa-total">R$0.00</h3>
+        <h3 id="despesa-total">R${{ despesa_total }}</h3>
       </div>
       <div class="card resumo-card saldo">
         <p>Saldo Atual</p>
-        <h3 id="saldo-atual">R$0.00</h3>
+        <h3 id="saldo-atual">R${{ saldo_atual }}</h3>
       </div>
     </section>
 
@@ -98,16 +93,26 @@
           </tr>
         </thead>
         <tbody id="lista-transacoes">
-          <tr>
-            <td colspan="5" class="placeholder">Nenhuma transação encontrada.</td>
-          </tr>
+          {% if ultimas_transacoes %}
+            {% for transacao in ultimas_transacoes %}
+              <tr>
+                <td>{{ transacao.data }}</td>
+                <td>{{ transacao.get_tipo_display }}</td>
+                <td>{{ transacao.categoria }}</td>
+                <td>R${{ transacao.valor }}</td>
+                <td>{{ transacao.descricao }}</td>
+              </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="5" class="placeholder">Nenhuma transação encontrada.</td>
+            </tr>
+          {% endif %}
         </tbody>
       </table>
     </section>
   </main>
 
-  {% load static %}
-<script src="{% static 'dashboard/dashboard.js' %}"></script>
 
 </body>
 </html>
