@@ -45,3 +45,6 @@ def dashboard(request):
     }
     return render(request, "dashboard/dashboard.html", context)
 
+@login_required
+def metas(request):
+    return render(request, "dashboard/metas.html")

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Metas - Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Orça +</h1>
+        </header>
+            <aside class="sidebar">
+            <h2 class="logo">Metas Financeiras</h2>
+            <nav>
+                <ul>
+                    <li><a href="#">Painel</a></li>
+                    <li><a href="#">Relatórios</a></li>
+                    <li class="active"><a href="#">Metas Financeiras</a></li>
+                    <li><a href="#">Configurações</a></li>
+                </ul>
+            </nav>
+            </aside>  
+
+            <section class='conteudo'>
+                <main>
+                    <header>
+                        <h2>Metas Financeiras</h2>
+                        <p>Crie e Acompanhe suas Metas Financeiras Aqui.</p>
+                    </header>
+                    <div class='lista'>
+                        <!--aqui vai aparecer as metas entao o conteudo sera pelo python -->
+                        {% for meta in metas %}
+                        <div class="card-meta">
+                            <div class="info">
+                                <h3>{{ meta.nome }}</h3>
+                                <p>{{ meta.descricao }}</p>
+                            </div>
+                            <div class="valor">${{ meta.valor_guardado }}</div>
+                            <div class="progresso">
+                                <div class="barra" style="width: {{ meta.percentual }}%;"></div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </main>  
+            </section>
+    </div>
+</body>
+</html>
