@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="nova-meta-container">
+  <h2>🎯 Nova Meta Financeira</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn-salvar">Salvar Meta</button>
+  </form>
+
+  <a href="{% url 'metas_financeiras' %}" class="btn-voltar">← Voltar</a>
+</div>
+{% endblock %}

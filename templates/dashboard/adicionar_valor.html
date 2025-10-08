@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="adicionar-container">
+  <h2>{{ meta.nome }}</h2>
+  <p>{{ meta.descricao }}</p>
+
+  <div class="progress-bar">
+    <div class="progress" style="width: {{ meta.progresso|floatformat:0 }}%;"></div>
+  </div>
+
+  <p><strong>Progresso:</strong> R${{ meta.valor_atual }} / R${{ meta.valor_objetivo }}</p>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit" name="adicionar_valor" class="btn-add">💰 Adicionar Valor</button>
+    <button type="submit" name="excluir_meta" class="btn-delete" onclick="return confirm('Tem certeza que deseja excluir esta meta?')">
+      🗑️ Excluir Meta
+    </button>
+  </form>
+
+  <a href="{% url 'metas_financeiras' %}" class="btn-voltar">← Voltar</a>
+</div>
+{% endblock %}

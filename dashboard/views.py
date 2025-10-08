@@ -1,9 +1,9 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Sum
 from datetime import date
-from .models import Transacao
-from .forms import TransacaoForm
+from .models import Transacao, MetaFinanceira
+from .forms import TransacaoForm, MetaFinanceiraForm, AdicionarValorForm
 
 @login_required
 def dashboard(request):
@@ -45,6 +45,36 @@ def dashboard(request):
     }
     return render(request, "dashboard/dashboard.html", context)
 
+#função de metas financeiras, adicionar valor e criar nova meta
 @login_required
-def metas(request):
-    return render(request, "dashboard/metas.html")
+def metas_financeiras(request):
+    metas = MetaFinanceira.objects.all().order_by('-data_criacao_meta')
+    return render(request, 'dashboard/metas.html', {'metas': metas})
+
+def nova_meta(request):
+    if request.method == 'POST':
+        form = MetaFinanceiraForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('metas_financeiras')
+    else:
+        form = MetaFinanceiraForm()
+    return render(request, 'dashboard/nova_meta.html', {'form': form})
+
+def adicionar_valor(request, meta_id):
+    meta = get_object_or_404(MetaFinanceira, id=meta_id)
+    if request.method == 'POST':
+        if 'adicionar_valor' in request.POST:
+            form = AdicionarValorForm(request.POST)
+            if form.is_valid():
+                valor = form.cleaned_data['valor']
+                meta.valor_atual_meta += valor
+                meta.save()
+                return redirect('metas_financeiras')
+
+        elif 'excluir_meta' in request.POST:
+            meta.delete()
+            return redirect('metas_financeiras')
+    else:
+        form = AdicionarValorForm()
+    return render(request, 'dashboard/adicionar_valor.html', {'meta': meta, 'form': form})
