@@ -46,20 +46,35 @@ def dashboard(request):
     return render(request, "dashboard/dashboard.html", context)
 
 #função de metas financeiras, adicionar valor e criar nova meta
+
+#ponto antes de tudo para o ctrl z
+
 @login_required
 def metas_financeiras(request):
-    metas = MetaFinanceira.objects.all().order_by('-data_criacao_meta')
-    return render(request, 'dashboard/metas.html', {'metas': metas})
-
-def nova_meta(request):
+    # Lógica para processar o formulário quando ele é enviado (POST)
     if request.method == 'POST':
         form = MetaFinanceiraForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('metas_financeiras')
+            nova_meta = form.save(commit=False)
+            # Se você precisar associar ao usuário logado, faça aqui:
+            # nova_meta.usuario = request.user 
+            nova_meta.save()
+            return redirect('metas_financeiras') # Redireciona para a mesma página (padrão PRG)
+    
+    # Se não for POST, cria um formulário vazio
     else:
         form = MetaFinanceiraForm()
-    return render(request, 'dashboard/nova_meta.html', {'form': form})
+
+    # Pega todas as metas para exibir na lista (isso acontece em ambos os casos, POST com erro ou GET)
+    metas = MetaFinanceira.objects.all().order_by('-data_criacao_meta')
+    
+    # Monta o contexto para enviar ao template
+    context = {
+        'metas': metas,
+        'form': form  # AGORA o form sempre será enviado para o template!
+    }
+    
+    return render(request, 'dashboard/metas.html', context)
 
 def adicionar_valor(request, meta_id):
     meta = get_object_or_404(MetaFinanceira, id=meta_id)
@@ -78,3 +93,9 @@ def adicionar_valor(request, meta_id):
     else:
         form = AdicionarValorForm()
     return render(request, 'dashboard/adicionar_valor.html', {'meta': meta, 'form': form})
+
+def excluir_meta(request, meta_id):
+    meta = get_object_or_404(MetaFinanceira, id=meta_id)
+    if request.method == 'POST':
+        meta.delete()
+    return redirect('metas_financeiras')

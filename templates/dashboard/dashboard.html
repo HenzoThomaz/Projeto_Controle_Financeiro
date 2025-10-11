@@ -14,7 +14,7 @@
 <body>
   
   <header>
-    <h1><img src="logo.png" alt="logo"></h1>
+    <h1><img src="static\dashboard\logo.png" alt="logo"></h1>
   </header>
 
   <main class="dashboard">
@@ -81,6 +81,7 @@
 
     <!-- TRANSAÇÕES RECENTES -->
     <section class="card tabela">
+      <a href="{% url 'dashboard_metas' %}" class="btn">Ir para metas (testes)</a>
       <h2>📝 Transações Recentes</h2>
       <table>
         <thead>
