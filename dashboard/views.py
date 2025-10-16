@@ -47,8 +47,6 @@ def dashboard(request):
 
 #função de metas financeiras, adicionar valor e criar nova meta
 
-#ponto antes de tudo para o ctrl z
-
 @login_required
 def metas_financeiras(request):
     # Lógica para processar o formulário quando ele é enviado (POST)
@@ -79,7 +77,7 @@ def metas_financeiras(request):
 def adicionar_valor(request, meta_id):
     meta = get_object_or_404(MetaFinanceira, id=meta_id)
     if request.method == 'POST':
-        if 'adicionar_valor' in request.POST:
+        #if 'adicionar_valor' in request.POST:
             form = AdicionarValorForm(request.POST)
             if form.is_valid():
                 valor = form.cleaned_data['valor']
@@ -87,11 +85,8 @@ def adicionar_valor(request, meta_id):
                 meta.save()
                 return redirect('metas_financeiras')
 
-        elif 'excluir_meta' in request.POST:
-            meta.delete()
-            return redirect('metas_financeiras')
     else:
-        form = AdicionarValorForm()
+        return redirect('metas_financeiras')
     return render(request, 'dashboard/adicionar_valor.html', {'meta': meta, 'form': form})
 
 def excluir_meta(request, meta_id):
