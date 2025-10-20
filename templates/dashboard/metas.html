@@ -13,9 +13,9 @@
     <h1> Minhas Metas Financeiras</h1>
 
     <!-- Botão principal -->
-    <button id="btn-abrir-form">+ Nova Meta</button>
+    <button id="btn-abrir-form">Nova Meta</button>
 
-    <!-- Formulário escondido -->
+    <!-- Formulário que era pra ser escondido -->
     <div id="formulario-meta" class="form-container">
         <form method="POST" action="{% url 'metas_financeiras' %}">
             {% csrf_token %}

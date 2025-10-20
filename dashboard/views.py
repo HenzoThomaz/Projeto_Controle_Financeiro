@@ -5,6 +5,9 @@ from datetime import date
 from .models import Transacao, MetaFinanceira
 from .forms import TransacaoForm, MetaFinanceiraForm, AdicionarValorForm
 
+
+
+
 @login_required
 def dashboard(request):
     # Formulário
@@ -54,22 +57,18 @@ def metas_financeiras(request):
         form = MetaFinanceiraForm(request.POST)
         if form.is_valid():
             nova_meta = form.save(commit=False)
-            # Se você precisar associar ao usuário logado, faça aqui:
-            # nova_meta.usuario = request.user 
+            nova_meta.usuario = request.user 
             nova_meta.save()
-            return redirect('metas_financeiras') # Redireciona para a mesma página (padrão PRG)
+            return redirect('metas_financeiras')
     
-    # Se não for POST, cria um formulário vazio
     else:
         form = MetaFinanceiraForm()
-
-    # Pega todas as metas para exibir na lista (isso acontece em ambos os casos, POST com erro ou GET)
+   
     metas = MetaFinanceira.objects.all().order_by('-data_criacao_meta')
     
-    # Monta o contexto para enviar ao template
     context = {
         'metas': metas,
-        'form': form  # AGORA o form sempre será enviado para o template!
+        'form': form  
     }
     
     return render(request, 'dashboard/metas.html', context)
@@ -77,7 +76,6 @@ def metas_financeiras(request):
 def adicionar_valor(request, meta_id):
     meta = get_object_or_404(MetaFinanceira, id=meta_id)
     if request.method == 'POST':
-        #if 'adicionar_valor' in request.POST:
             form = AdicionarValorForm(request.POST)
             if form.is_valid():
                 valor = form.cleaned_data['valor']
@@ -94,3 +92,23 @@ def excluir_meta(request, meta_id):
     if request.method == 'POST':
         meta.delete()
     return redirect('metas_financeiras')
+
+#parte da views do historico
+@login_required
+def historico_transacoes(request):
+    queryset = Transacao.objects.filter(user=request.user)
+    queryset = queryset.order_by('-data')
+    filtro_tipo = request.GET.get('tipo') # Tenta pegar 'tipo' da URL (Ex: ?tipo=receita)
+    
+    if filtro_tipo == 'receita':
+        queryset = queryset.filter(tipo='receita')
+    elif filtro_tipo == 'despesa':
+        queryset = queryset.filter(tipo='despesa')
+    
+    contexto = {
+        'transacoes': queryset,
+        'filtro_ativo': filtro_tipo if filtro_tipo in ['receita', 'despesa'] else 'todos',
+    }
+    
+    return render(request, 'dashboard/historico.html', contexto)
+
