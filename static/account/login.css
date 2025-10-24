@@ -1,0 +1,226 @@
+/* === Fundo e Centralização === */
+body {
+  background: radial-gradient(circle at center, #48009c 0%, #1d0036 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+  overflow: hidden;
+}
+
+/* === Container Principal === */
+.auth-container {
+  background: rgba(15, 15, 15, 0.95);
+  backdrop-filter: blur(12px);
+  padding: 55px 60px;
+  border-radius: 22px;
+  box-shadow: 0 10px 40px rgba(80, 0, 150, 0.6);
+  width: 400px;
+  text-align: center;
+  border: 1px solid rgba(140, 50, 255, 0.2);
+  position: relative;
+  animation: pop-in 0.6s ease;
+}
+
+/* === Animações === */
+@keyframes pop-in {
+  0% { transform: scale(0.95); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.fade-in {
+  animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === Logo === */
+.logo {
+  width: 130px;
+  margin-bottom: 15px;
+  filter: drop-shadow(0 0 10px rgba(140, 50, 255, 0.7));
+}
+
+/* === Títulos === */
+h1 {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #c9c9c9;
+  margin-bottom: 35px;
+  line-height: 1.5;
+}
+
+/* === Formulário === */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+}
+
+form label {
+  text-align: left;
+  font-size: 14px;
+  color: #bdbdbd;
+  margin-bottom: 6px;
+}
+
+form input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+  border-radius: 10px;
+  border: 1px solid #3a005f;
+  background-color: #1c1c1c;
+  color: #fff;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+form input:focus {
+  background-color: #272727;
+  border: 1px solid #a050ff;
+  box-shadow: 0 0 10px rgba(160, 80, 255, 0.3);
+  outline: none;
+}
+
+/* === Botão === */
+button {
+  width: 100%;
+  background: linear-gradient(135deg, #7a00ff, #9a3eff);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 13px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(140, 50, 255, 0.4);
+}
+
+button:hover {
+  background: linear-gradient(135deg, #9a3eff, #b96bff);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(160, 80, 255, 0.5);
+}
+
+/* === Links === */
+.auth-links {
+  margin-top: 25px;
+  font-size: 14px;
+  color: #bdbdbd;
+}
+
+.auth-links a {
+  color: #b96bff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.auth-links a:hover {
+  color: #fff;
+  text-shadow: 0 0 8px #b96bff;
+}
+
+/* === Responsividade === */
+@media (max-width: 480px) {
+  .auth-container {
+    width: 90%;
+    padding: 40px 25px;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  button {
+    font-size: 14px;
+  }
+}
+/* === Tela de Redefinir Senha === */
+.reset-container {
+    background-color: #121212;
+    padding: 50px 60px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    width: 420px;
+    margin: 50px auto;
+}
+
+.reset-container .logo {
+    width: 120px;
+    margin-bottom: 25px;
+}
+
+.reset-container h1 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.reset-container .subtitle {
+    font-size: 14px;
+    color: #ccc;
+    margin-bottom: 30px;
+    line-height: 1.4;
+}
+
+.reset-container form input {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    background-color: #1f1f1f;
+    color: #fff;
+    font-size: 14px;
+}
+
+.reset-container form input:focus {
+    outline: 2px solid #8c52ff;
+}
+
+.reset-container button {
+    width: 100%;
+    background: linear-gradient(90deg, #8c52ff, #b84eff);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.reset-container button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(140, 82, 255, 0.6);
+}
+
+.reset-container .back {
+    margin-top: 20px;
+}
+
+.reset-container .back a {
+    color: #a577ff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.reset-container .back a:hover {
+    text-decoration: underline;
+}
