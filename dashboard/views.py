@@ -46,7 +46,7 @@ def dashboard(request):
         "despesa_mes": despesa_mes,
         "ultimas_transacoes": ultimas_transacoes,
     }
-    return render(request, "dashboard/dashboard.html", context)
+    return render(request, "dashboard/dashboard.html", context) 
 
 #função de metas financeiras, adicionar valor e criar nova meta
 
@@ -112,3 +112,26 @@ def historico_transacoes(request):
     
     return render(request, 'dashboard/historico.html', contexto)
 
+@login_required
+def ver_dashboard2(request):
+    transacoes = Transacao.objects.filter(user=request.user)
+    receita_total = transacoes.filter(tipo="receita").aggregate(Sum("valor"))["valor__sum"] or 0
+    despesa_total = transacoes.filter(tipo="despesa").aggregate(Sum("valor"))["valor__sum"] or 0
+    saldo_atual = receita_total - despesa_total
+
+    context = {
+        "saldo": saldo_atual,
+        "receitas": receita_total,
+        "despesas": despesa_total,
+    }
+    if request.method == "POST":
+        form = TransacaoForm(request.POST)
+        if form.is_valid():
+            transacao = form.save(commit=False)
+            transacao.user = request.user  # vincula ao usuário logado
+            transacao.save()
+            return redirect("dashboard_dashboard")
+        else:
+            form = TransacaoForm()
+    return render(request, "dashboard/dashboard2.html", context)
+    
