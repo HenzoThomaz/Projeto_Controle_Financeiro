@@ -52,7 +52,6 @@ def dashboard(request):
 
 @login_required
 def metas_financeiras(request):
-    # Lógica para processar o formulário quando ele é enviado (POST)
     if request.method == 'POST':
         form = MetaFinanceiraForm(request.POST)
         if form.is_valid():
@@ -112,6 +111,8 @@ def historico_transacoes(request):
     
     return render(request, 'dashboard/historico.html', contexto)
 
+#novo dashboard que minino bouglas fez (que orgulho)
+
 @login_required
 def ver_dashboard2(request):
     transacoes = Transacao.objects.filter(user=request.user)
@@ -119,19 +120,23 @@ def ver_dashboard2(request):
     despesa_total = transacoes.filter(tipo="despesa").aggregate(Sum("valor"))["valor__sum"] or 0
     saldo_atual = receita_total - despesa_total
 
-    context = {
-        "saldo": saldo_atual,
-        "receitas": receita_total,
-        "despesas": despesa_total,
-    }
     if request.method == "POST":
         form = TransacaoForm(request.POST)
         if form.is_valid():
             transacao = form.save(commit=False)
-            transacao.user = request.user  # vincula ao usuário logado
+            transacao.user = request.user 
             transacao.save()
-            return redirect("dashboard_dashboard")
-        else:
-            form = TransacaoForm()
+
+            return redirect("dashboard2") 
+    else:
+        form = TransacaoForm()
+
+    context = {
+        "saldo": saldo_atual,
+        "receitas": receita_total,
+        "despesas": despesa_total,
+        "form": form,
+    }
+    
     return render(request, "dashboard/dashboard2.html", context)
     
