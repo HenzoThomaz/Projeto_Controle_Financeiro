@@ -2,15 +2,30 @@ from django.db import models
 from django.contrib.auth.models import User  # modelo padrão do Django para meio que as sessions do flask
 
 class Transacao(models.Model):
+    # --- NOVAS OPÇÕES DE CATEGORIA ---
+    CATEGORIA_CHOICES = [
+        ('alimentacao', 'Alimentação'),
+        ('lazer', 'Lazer'),
+        ('transporte', 'Transporte'),
+        ('contas_casa', 'Contas de Casa'),
+        ('trabalho', 'Trabalho'),
+        ('estudo', 'Estudo'),
+        ('outro', 'Outro'),
+    ]
+
     TIPO_CHOICES = [
         ('receita', 'Receita'),
         ('despesa', 'Despesa'),
     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)  # vínculo com o usuário, para não misturar dados
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     tipo = models.CharField(max_length=10, choices=TIPO_CHOICES)
     valor = models.DecimalField(max_digits=10, decimal_places=2)
-    categoria = models.CharField(max_length=50)
+    
+    # --- CAMPO CATEGORIA ATUALIZADO ---
+    # Usamos max_length suficiente para a chave mais longa ('contas_casa')
+    categoria = models.CharField(max_length=20, choices=CATEGORIA_CHOICES) 
+    
     descricao = models.CharField(max_length=200, blank=True, null=True)
     data = models.DateField()
 

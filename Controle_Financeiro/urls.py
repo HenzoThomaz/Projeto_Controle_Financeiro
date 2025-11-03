@@ -25,6 +25,6 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),  
     path("dashboard/", include("dashboard.urls")), 
 
-path('', RedirectView.as_view(pattern_name='dashboard_dashboard', permanent=False), name='index'),
+path('', RedirectView.as_view(pattern_name='dashboard_dashboard2', permanent=False), name='index'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

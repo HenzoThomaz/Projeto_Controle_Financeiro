@@ -116,7 +116,7 @@ AUTHENTICATION_BACKENDS = [
         'allauth.account.auth_backends.AuthenticationBackend',
     ]
 
-LOGIN_REDIRECT_URL = "/dashboard/"
+LOGIN_REDIRECT_URL = "/dashboard/dashboard2/"
 LOGOUT_REDIRECT_URL = "/accounts/login/" 
 
 
