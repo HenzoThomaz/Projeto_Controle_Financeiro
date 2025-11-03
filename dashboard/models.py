@@ -34,3 +34,4 @@ class MetaFinanceira(models.Model):
 
     def __str__(self):
         return self.nome_meta
+    

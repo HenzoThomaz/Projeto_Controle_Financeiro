@@ -4,60 +4,73 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Metas Financeiras</title>
-    <link rel="stylesheet" href="{% static 'dashboard/static/metas.css' %}">
+    <title>Minhas Metas Financeiras</title>
+    <link rel="stylesheet" href="{% static 'dashboard/metas.css' %}">
     <script defer src="{% static 'dashboard/metas.js' %}"></script>
 </head>
 <body>
 
-    <h1> Minhas Metas Financeiras</h1>
+    <div class="container">
+        <h1> Minhas Metas Financeiras</h1>
 
-    <!-- Botão principal -->
-    <button id="btn-abrir-form">Nova Meta</button>
+        <button id="btn-abrir-form" class="btn-nova-meta">Nova Meta</button>
 
-    <!-- Formulário que era pra ser escondido -->
-    <div id="formulario-meta" class="form-container">
-        <form method="POST" action="{% url 'metas_financeiras' %}">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <div class="form-actions">
-                <button type="submit">Salvar</button>
-                <button type="button" id="btn-fechar-form">Cancelar</button>
-            </div>
-        </form>
-    </div>
-
-    <hr>
-
-    <!-- Lista de metas -->
-    <div class="metas-container">
-        {% for meta in metas %}
-        <div class="meta-card">
-            <h3>{{ meta.nome_meta }}</h3>
-            <p>{{ meta.descricao_meta }}</p>
-            <p><strong>Progresso:</strong> R$ {{ meta.valor_atual_meta }} / R$ {{ meta.valor_objetivo_meta }}</p>
-            <p><strong>{{ meta.progresso|floatformat:2 }}%</strong></p>
-
-            <button class="btn-add" data-meta="{{ meta.id }}">Adicionar valor</button>
-
-            <div id="addvalor-{{ meta.id }}" class="form-add">
-                <form method="POST" action="{% url 'adicionar_valor' meta.id %}">
-                    {% csrf_token %}
-                    <input type="number" step="0.01" name="valor" placeholder="Valor a adicionar" required>
-                    <button type="submit">Adicionar</button>
-                    <button type="button" class="btn-cancel" data-meta="{{ meta.id }}">Cancelar</button>
-                </form>
-            </div>
-
-            <form method="POST" action="{% url 'excluir_meta' meta.id %}">
+        <div id="formulario-meta" class="nova-meta-form" style="display: none;">
+            <form method="POST" action="{% url 'metas_financeiras' %}">
                 {% csrf_token %}
-                <button type="submit" class="btn-excluir">Excluir</button>
+                {{ form.as_p }} 
+                <div class="form-actions">
+                    <button type="submit" class="btn-salvar">Salvar</button>
+                    <button type="button" id="btn-fechar-form" class="btn-cancelar">Cancelar</button>
+                </div>
             </form>
         </div>
-        {% empty %}
-        <p>Nenhuma meta cadastrada.</p>
-        {% endfor %}
-    </div>
 
+        <hr style="margin: 20px 0; border-color: #333;"> 
+
+        <div class="lista-metas">
+            {% for meta in metas %}
+            <div class="meta-card">
+                
+                <div class="meta-info">
+                    <h2>{{ meta.nome_meta }}</h2>
+                    <p>{{ meta.descricao_meta }}</p>
+                </div>
+
+                <div class="meta-valor">R$ {{ meta.valor_objetivo_meta|floatformat:2 }}</div>
+
+                <div class="meta-progresso-container">
+                    <div class="meta-valor-atual">R$ {{ meta.valor_atual_meta|floatformat:2 }}</div>
+
+                    <div class="progresso-bar-externa">
+                        <div class="progresso-bar-interna" style="width: {{ meta.progresso|default:'0'|floatformat:2 }}%;"></div>
+                    </div>
+                    <div class="progresso-texto">Progresso: {{ meta.progresso|default:'0'|floatformat:2 }}%</div>
+                </div>
+
+                <div class="meta-acoes">
+                    <button class="btn-add btn-adicionar" data-meta="{{ meta.id }}">Adicionar valor</button>
+
+                    <div id="addvalor-{{ meta.id }}" class="form-add" style="display: none;">
+                        <form method="POST" action="{% url 'adicionar_valor' meta.id %}">
+                            {% csrf_token %}
+                            <input type="number" step="0.01" name="valor" placeholder="Valor a adicionar" required>
+                            <button type="submit" class="btn-adicionar">Adicionar</button>
+                            <button type="button" class="btn-cancelar btn-cancel" data-meta="{{ meta.id }}">Cancelar</button>
+                        </form>
+                    </div>
+
+                    <form method="POST" action="{% url 'excluir_meta' meta.id %}" style="margin-left: auto;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-excluir">Excluir</button>
+                    </form>
+                </div>
+
+            </div>
+            {% empty %}
+            <p>Nenhuma meta cadastrada.</p>
+            {% endfor %}
+        </div>
+    </div>
 </body>
 </html>
