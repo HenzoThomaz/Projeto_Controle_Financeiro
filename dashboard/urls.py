@@ -10,4 +10,7 @@ urlpatterns = [
     path('metas/', views.metas_financeiras, name='metas_financeiras'),
     path('historico/', views.historico_transacoes, name='historico'),
     path('dashboard2/', views.ver_dashboard2, name='dashboard2'),
+    #path('orcamento_mensal/', views.orcamento_mensal, name='orcamento_mensal'),
+    path('orcamento_mensal/', views.dashboard_orcamento_mensal, name='dashboard_orcamento_mensal'),
+    path('orcamento_mensal/editar/<int:meta_id>/', views.editar_meta_orcamento, name='editar_meta_orcamento'),
 ]

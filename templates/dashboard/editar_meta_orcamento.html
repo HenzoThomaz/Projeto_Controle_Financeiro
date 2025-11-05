@@ -1,0 +1,8 @@
+<h2>Editar Meta para {{ meta.get_categoria_display }} - {{ meta.mes_ano|date:"F Y" }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Salvar Meta</button>
+    <a href="{% url 'dashboard_orcamento_mensal' %}">Cancelar</a>
+</form>

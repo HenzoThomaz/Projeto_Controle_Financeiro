@@ -2,9 +2,9 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Sum
 from datetime import date
-from .models import Transacao, MetaFinanceira
-from .forms import TransacaoForm, MetaFinanceiraForm, AdicionarValorForm
-
+from .models import Transacao, MetaFinanceira, MetaOrcamento
+from .forms import TransacaoForm, MetaFinanceiraForm, AdicionarValorForm,MetaOrcamentoForm 
+from decimal import Decimal
 
 
 
@@ -139,4 +139,89 @@ def ver_dashboard2(request):
     }
     
     return render(request, "dashboard/dashboard2.html", context)
+
+#@login_required
+#def orcamento_mensal(request):
+ #   return render(request, "dashboard/orcamento_mensal.html")
+
+@login_required
+def dashboard_orcamento_mensal(request):
+    usuario = request.user
+    
+    # 1. Definir o período (Mês/Ano Atual)
+    hoje = date.today()
+    primeiro_dia_mes = hoje.replace(day=1)
+    
+    # 2. Obter todas as categorias disponíveis (as mesmas da Transacao)
+    categorias_choices = Transacao.CATEGORIA_CHOICES
+    
+    dados_orcamento = []
+    
+    for chave_cat, nome_cat in categorias_choices:
+        
+        # 3. Obter a meta para a categoria (ou criar uma temporária com limite 0)
+        # Tenta obter a meta existente, ou cria uma nova instância não salva se não existir
+        meta, criada = MetaOrcamento.objects.get_or_create(
+            user=usuario,
+            categoria=chave_cat,
+            mes_ano=primeiro_dia_mes,
+            defaults={'limite_mensal': Decimal('0.00')} # Define 0 como meta inicial se for a primeira vez
+        )
+
+        # 4. Calcular o gasto total na categoria no mês atual
+        # Filtra por despesas e pelo intervalo do mês atual
+        gastos_mes = Transacao.objects.filter(
+            user=usuario,
+            tipo='despesa', # Apenas despesas
+            categoria=chave_cat,
+            data__gte=primeiro_dia_mes, # Data maior ou igual ao primeiro dia do mês
+            data__lte=hoje # Data menor ou igual ao dia atual
+        ).aggregate(Sum('valor'))['valor__sum'] or Decimal('0.00')
+        
+        # 5. Calcular o restante
+        restante = meta.limite_mensal - gastos_mes
+
+        # 6. Adicionar os dados para o template
+        dados_orcamento.append({
+            'nome_categoria': nome_cat,
+            'chave_categoria': chave_cat,
+            'meta_id': meta.id, # Usado para o link de edição
+            'limite': meta.limite_mensal,
+            'gasto_atual': gastos_mes,
+            'restante': restante,
+            'porcentagem_gasta': (gastos_mes / meta.limite_mensal) * 100 if meta.limite_mensal > 0 else 0,
+            'alerta_gasto': restante < 0 # Exemplo: alerta se ultrapassou a meta
+        })
+
+    contexto = {
+        'dados_orcamento': dados_orcamento,
+        'mes_exibicao': hoje.strftime("%B de %Y") 
+    }
+    
+    return render(request, 'dashboard/orcamento_mensal.html', contexto)
+
+# --- View para editar a meta ---
+# Use um ModelForm para simplificar a edição
+# Esteja pronto para criá-lo no próximo passo
+
+
+@login_required
+def editar_meta_orcamento(request, meta_id):
+    # Obtém a meta, retorna 404 se não for encontrada ou não pertencer ao usuário
+    meta = get_object_or_404(MetaOrcamento, id=meta_id, user=request.user)
+    
+    if request.method == 'POST':
+        form = MetaOrcamentoForm(request.POST, instance=meta)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard_orcamento_mensal') # Redireciona de volta ao dashboard
+    else:
+        # Preenche o formulário com os dados da meta existente
+        form = MetaOrcamentoForm(instance=meta)
+    
+    contexto = {
+        'form': form,
+        'meta': meta
+    }
+    return render(request, 'dashboard/editar_meta_orcamento.html', contexto)
     

@@ -23,7 +23,6 @@ class Transacao(models.Model):
     valor = models.DecimalField(max_digits=10, decimal_places=2)
     
     # --- CAMPO CATEGORIA ATUALIZADO ---
-    # Usamos max_length suficiente para a chave mais longa ('contas_casa')
     categoria = models.CharField(max_length=20, choices=CATEGORIA_CHOICES) 
     
     descricao = models.CharField(max_length=200, blank=True, null=True)
@@ -50,3 +49,28 @@ class MetaFinanceira(models.Model):
     def __str__(self):
         return self.nome_meta
     
+#parte referente ao orçamento mensal
+class MetaOrcamento(models.Model):
+
+    CATEGORIA_CHOICES = [
+        ('alimentacao', 'Alimentação'),
+        ('lazer', 'Lazer'),
+        ('transporte', 'Transporte'),
+        ('contas_casa', 'Contas de Casa'),
+        ('trabalho', 'Trabalho'),
+        ('estudo', 'Estudo'),
+        ('outro', 'Outro'),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    categoria = models.CharField(max_length=20, choices=CATEGORIA_CHOICES)
+    limite_mensal = models.DecimalField(max_digits=10, decimal_places=2) 
+    mes_ano = models.DateField(default=models.DateField(auto_now_add=True)) 
+
+    class Meta:
+        unique_together = ('user', 'categoria', 'mes_ano') 
+        verbose_name = "Meta de Orçamento"
+        verbose_name_plural = "Metas de Orçamento"
+
+    def __str__(self):
+        return f"Meta de {self.user.username} - {self.get_categoria_display()} - R${self.limite_mensal}"

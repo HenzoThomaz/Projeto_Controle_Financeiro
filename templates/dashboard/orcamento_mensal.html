@@ -1,0 +1,50 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Orçamento Mensal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="{% static 'dashboard/orcamento.css' %}"> 
+</head>
+<body>
+  <header>
+    <h1>Orçamento Mensal</h1>
+    <p>Crie e acompanhe seus gastos mensais por categoria</p>
+  </header>
+  <h2>Orçamento Mensal: {{ mes_exibicao }}</h2>
+
+<div class="orcamento-container">
+    {% for dados in dados_orcamento %}
+    <div class="card-orcamento 
+        {% if dados.alerta_gasto %}alerta-gasto{% endif %} 
+        {% if dados.porcentagem_gasta > 80 and not dados.alerta_gasto %}quase-la{% endif %}
+    ">
+        <h3>{{ dados.nome_categoria }}</h3>
+        <p>Meta: R$ {{ dados.limite|floatformat:2 }}</p>
+        <p>Gasto Atual: **R$ {{ dados.gasto_atual|floatformat:2 }}**</p>
+        
+        <div class="barra-progresso">
+            <div class="progresso" style="width: {{ dados.porcentagem_gasta|default:0|floatformat:0 }}%;"></div>
+        </div>
+        
+        {% if dados.alerta_gasto %}
+            <p class="alerta">**Meta Ultrapassada!** Faltam: R$ {{ dados.restante|floatformat:2|slice:"1:" }}</p>
+        {% else %}
+            <p>Restante: R$ {{ dados.restante|floatformat:2 }}</p>
+        {% endif %}
+
+        <a href="{% url 'editar_meta_orcamento' dados.meta_id %}" class="btn-editar">
+            Alterar Meta
+        </a>
+    </div>
+    {% endfor %}
+</div>
+  <main id="listaCategorias"></main>
+  <button id="addCategoriaBtn" onclick="novaCategoria()">
+    <i class="fa fa-plus"></i>
+  </button>
+</body>
+</html>
