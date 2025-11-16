@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Dashboard PF — Esclarecer Tecnologia</title>
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<!-- Custom CSS -->
+<link rel="stylesheet" href="style.css">
+<!-- Chart.js and SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+     
+      <div class="brand-info">
+        <h1 id="brandName">Painel Financeiro PF</h1>
+        <p class="muted" id="brandSub">Controle de Finanças Pessoais</p>
+      </div>
+    </div>
+    <div class="top-actions">
+      <div class="chip" id="balanceMini">Saldo: R$ 0,00</div>
+      <button class="btn btn-ghost" id="btn-export-csv"><i class="fa fa-file-csv"></i> CSV</button>
+      <button class="btn btn-ghost" id="btn-export-pdf"><i class="fa fa-file-pdf"></i> PDF</button>
+      <button class="btn btn-primary" id="btn-login">Conta / Login</button>
+    </div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="userbox">
+        <div class="avatar" id="avatarBtn">U</div>
+        <div class="usermeta">
+          <div class="name" id="userName">Convidado</div>
+          <div class="role muted" id="userRole">Usuário</div>
+        </div>
+      </div>
+      <nav class="menu" aria-label="Menu principal">
+        <button data-view="dashboard" class="active"><i class="fa fa-chart-line"></i> Dashboard</button>
+        <button data-view="transactions"><i class="fa fa-list"></i> Lançamentos</button>
+        <button data-view="reports"><i class="fa fa-file-contract"></i> Relatórios</button>
+        <button data-view="settings"><i class="fa fa-gear"></i> Configurações</button>
+      </nav>
+      <div style="margin-top:18px">
+        <button class="btn btn-primary" id="btn-demo">Carregar Demo</button>
+        <button class="btn btn-ghost" id="btn-reset">Resetar Dados</button>
+      </div>
+    </aside>
+    <main class="content">
+      <!-- KPI cards -->
+      <div class="kpis">
+        <div class="card">
+          <div class="title">Saldo</div>
+          <div class="value" id="kSaldo">R$ 0,00</div>
+        </div>
+        <div class="card">
+          <div class="title">Receitas</div>
+          <div class="value" id="kReceitas">R$ 0,00</div>
+        </div>
+        <div class="card">
+          <div class="title">Despesas</div>
+          <div class="value" id="kDespesas">R$ 0,00</div>
+        </div>
+      </div>
+
+      <!-- Dashboard -->
+      <section class="panel" id="view-dashboard">
+        <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">
+          <div style="flex:1" class="panel" id="chartPanel">
+            <canvas id="chartLine" height="110"></canvas>
+          </div>
+          <div style="width:300px" class="panel">
+            <div class="muted">Resumo por categoria</div>
+            <div id="summaryCats" style="margin-top:8px"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Lançamentos -->
+      <section class="panel" id="view-transactions" style="display:none">
+        <div class="controls">
+          <input class="search" id="search" placeholder="Pesquisar..." />
+          <select id="filterType">
+            <option value="all">Todos</option>
+            <option value="receita">Receitas</option>
+            <option value="despesa">Despesas</option>
+          </select>
+          <select id="filterMonth"><option value="all">Todos os meses</option></select>
+        </div>
+        <div style="display:flex;gap:12px">
+          <div style="flex:1">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Data</th><th>Descrição</th><th>Categoria</th><th style="text-align:right">Valor</th><th></th></tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+              </table>
+            </div>
+          </div>
+          <aside style="width:360px">
+            <div class="panel">
+              <div class="title">Novo lançamento</div>
+              <label>Tipo</label>
+              <select id="type"><option value="receita">Receita</option><option value="despesa">Despesa</option></select>
+              <label>Categoria</label>
+              <select id="category"></select>
+              <label>Descrição</label>
+              <input id="description" />
+              <div style="display:flex;gap:8px">
+                <div style="flex:1">
+                  <label>Valor</label>
+                  <input id="value" type="number" step="0.01" />
+                </div>
+                <div style="width:140px">
+                  <label>Data</label>
+                  <input id="date" type="date" />
+                </div>
+              </div>
+              <label>Observações</label>
+              <textarea id="notes"></textarea>
+              <div style="display:flex;gap:8px;margin-top:8px">
+                <button class="btn btn-primary" id="saveBtn">Salvar</button>
+                <button class="btn btn-ghost" id="clearBtn">Limpar</button>
+                <button class="btn btn-ghost right" id="manageCats">Categorias</button>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- Relatórios -->
+      <section class="panel" id="view-reports" style="display:none">
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px">
+          <button class="btn btn-primary" id="btnPdfReport"><i class="fa fa-file-pdf"></i> Gerar PDF</button>
+          <button class="btn btn-ghost" id="btnExportCompany"><i class="fa fa-download"></i> Exportar dados (JSON)</button>
+        </div>
+        <div id="reportPreview" class="panel">
+          <h3>Relatório Executivo — <span id="reportCompany">Esclarecer Tecnologia</span></h3>
+          <div id="reportContent" class="muted">Use "Gerar PDF" para exportar um resumo com KPI.</div>
+        </div>
+      </section>
+
+      <!-- Configurações -->
+      <section class="panel" id="view-settings" style="display:none">
+        <h3>Configurações</h3>
+        <div style="display:flex;gap:12px">
+          <div style="flex:1">
+            <div class="panel">
+              <div class="title">Usuários (demo)</div>
+              <div id="usersList" style="margin-top:8px"></div>
+              <div style="display:flex;gap:8px;margin-top:10px">
+                <input id="newUserLogin" placeholder="login" />
+                <input id="newUserName" placeholder="Nome" />
+                <button class="btn btn-primary" id="createUser">Criar</button>
+              </div>
+            </div>
+          </div>
+          <div style="width:320px">
+            <div class="panel">
+              <div class="title">Backup & Limpeza</div>
+              <div style="display:flex;gap:8px;margin-top:8px">
+                <button class="btn btn-ghost" id="exportAll">Exportar tudo</button>
+                <button class="btn btn-ghost" id="importAll">Importar (JSON)</button>
+                <button class="btn btn-ghost" id="clearAll">Limpar local</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      
+    </main>
+  </div>
+</div>
+
+<!-- Modals and hidden inputs -->
+<input type="file" id="avatarFile" accept="image/*" style="display:none" />
+<input type="file" id="importFile" accept="application/json" style="display:none" />
+
+<!-- Custom JS -->
+<script src="script.js"></script>
+</body>
+</html>

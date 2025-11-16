@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Orça+</title>
+
+{% load static %}
+
+<script src="{% static 'dashboard/dashboard.js' %}"></script> 
+<link rel="stylesheet" href="{% static 'dashboard/dashboard.css' %}"> 
+
+</head>
+
+<body>
+  
+  <header>
+    <h1><img src="static\dashboard\logo.png" alt="logo"></h1>
+  </header>
+
+  <main class="dashboard">
+    <!-- NOVA TRANSAÇÃO -->
+    <section class="card transacao">
+      <h2>➕ Adicionar Nova Transação</h2>
+      <form method="post">
+        {% csrf_token %}
+        <div class="tipo">
+          {{ form.tipo }}  <!-- Django renderiza os radios -->
+        </div>
+
+        <label>Valor
+          {{ form.valor }}
+        </label>
+
+        <label>Categoria
+          {{ form.categoria }}
+        </label>
+
+        <label>Descrição (Opcional)
+          {{ form.descricao }}
+        </label>
+
+        <label>Data
+          {{ form.data }}
+        </label>
+
+        <button type="submit" class="btn">Adicionar Transação</button>
+      </form>
+
+    </section>
+
+    <!-- VALORES -->
+    <section class="resumo">
+      <div class="card resumo-card receita">
+        <p>Receita Total</p>
+        <h3 id="receita-total">R${{ receita_total }}</h3>
+      </div>
+      <div class="card resumo-card despesa">
+        <p>Despesa Total</p>
+        <h3 id="despesa-total">R${{ despesa_total }}</h3>
+      </div>
+      <div class="card resumo-card saldo">
+        <p>Saldo Atual</p>
+        <h3 id="saldo-atual">R${{ saldo_atual }}</h3>
+      </div>
+    </section>
+
+    <section class="graficos-container">
+      <div class="graficos-grafico">
+        <h2>📊 Despesas por Categoria</h2>
+        <canvas id="grafico-categorias-despesa"></canvas>
+      </div>
+      <div class="graficos-grafico">
+        <h2>📊 Receitas por Categoria</h2>
+        <canvas id="grafico-categorias-receita"></canvas>
+      </div>
+      <div class="graficos-grafico">
+        <h2>📈 Receitas vs. Despesas Diárias</h2>
+        <canvas id="grafico-linhas"></canvas>
+      </div>
+    </section>
+
+    <!-- TRANSAÇÕES RECENTES -->
+    <section class="card tabela">
+      <a href="{% url 'metas_financeiras' %}" class="btn">Ir para metas (testes)</a>
+      <a href="{% url 'historico' %}" class="btn">Ir para historico (testes)</a>
+      <a href="{% url 'dashboard2' %}" class="btn">Ir para dashboard2 </a>
+      <h2>📝 Transações Recentes</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Tipo</th>
+            <th>Categoria</th>
+            <th>Valor</th>
+            <th>Descrição</th>
+          </tr>
+        </thead>
+        <tbody id="lista-transacoes">
+          {% if ultimas_transacoes %}
+            {% for transacao in ultimas_transacoes %}
+              <tr>
+                <td>{{ transacao.data }}</td>
+                <td>{{ transacao.get_tipo_display }}</td>
+                <td>{{ transacao.categoria }}</td>
+                <td>R${{ transacao.valor }}</td>
+                <td>{{ transacao.descricao }}</td>
+              </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="5" class="placeholder">Nenhuma transação encontrada.</td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+
+</body>
+</html>

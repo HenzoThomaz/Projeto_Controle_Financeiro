@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Dashboard</title>
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<!-- Custom CSS -->
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'dashboard/style2.css' %}"> 
+
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+     
+      <div class="brand-info">
+        <h1 id="brandName">Orça +</h1>
+        <p class="muted" id="brandSub">Controle de Finanças Pessoais</p>
+      </div>
+    </div>
+    <div class="top-actions">
+  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="userbox">
+        <div class="avatar" id="avatarBtn">U</div>
+        <div class="usermeta">
+          <div class="role muted" id="userRole">Usuário</div>
+        </div>
+      </div>
+
+
+      <nav class="menu" aria-label="Menu principal">
+        <button data-view="dashboard"> <a href="{% url 'metas_financeiras' %}" class="btn">Metas</a></button>
+        <button data-view="transactions"><a href="{% url 'dashboard_orcamento_mensal' %}" class="btn">Orçamento Mensal</a></button>
+        <button data-view="reports"><a href="{% url 'historico' %}" class="btn">Historico</a></button>
+      </nav>
+
+      
+    </aside>
+    <main class="content">
+      <!-- KPI cards -->
+      <div class="kpis">
+    <div class="card">
+      <div class="title">Saldo</div>
+      <div class="value" id="kSaldo">R${{ saldo|floatformat:2 }}</div>
+    </div>
+    
+    <div class="card">
+      <div class="title">Receitas</div>
+      <div class="value" id="kReceitas">R${{ receitas|floatformat:2 }}</div>
+    </div>
+    
+    <div class="card">
+      <div class="title">Despesas</div>
+      <div class="value" id="kDespesas">R${{ despesas|floatformat:2 }}</div>
+    </div>
+</div>
+
+      <!-- Dashboard -->
+      <section class="panel" id="view-dashboard">
+        <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">
+          <div style="flex:1" class="panel" id="chartPanel">
+              <form method="post">
+                  {% csrf_token %}
+                  
+                  {{ form.as_p }} 
+                  
+                  <button type="submit">Salvar Transação</button>
+              </form>
+            <div id="summaryCats" style="margin-top:8px"></div>
+          </div>
+        </div>
+      </section>
+      
+    </main>
+  </div>
+</div>
+
+<!-- Modals and hidden inputs -->
+<input type="file" id="avatarFile" accept="image/*" style="display:none" />
+<input type="file" id="importFile" accept="application/json" style="display:none" />
+
+
+</body>
+</html>

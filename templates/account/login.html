@@ -1,0 +1,43 @@
+{% extends "account/base_entrance.html" %}
+{% load i18n static %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'account/login.css' %}">
+{% endblock extra_head %}
+
+{% block head_title %}{% trans "Entrar" %}{% endblock %}
+
+{# ESTE É O BLOCO CHAVE: Sobrescrevemos o body inteiro, ignorando o menu do template base. #}
+{% block body %}
+    {# Inclui a exibição de mensagens se houver (opcional, mas recomendado) #}
+    {% if messages %}
+        <div>
+            <strong>{% trans "Messages:" %}</strong>
+            <ul>
+                {% for message in messages %}<li>{{ message }}</li>{% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    {# Este bloco content é o que foi injetado pelo seu login.html anterior #}
+    {% block content %}
+        <div class="auth-container fade-in">
+            <img src="{% static 'account/logo.png' %}" alt="Logo" class="logo" />
+            <h1>Bem-vindo de volta!</h1>
+            <p class="subtitle">Acesse seu painel financeiro de forma rápida e segura.</p>
+
+            <form method="post" action="{% url 'account_login' %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Entrar</button>
+            </form>
+
+            <div class="auth-links">
+                <p>Não tem uma conta? <a href="{% url 'account_signup' %}">Cadastre-se</a></p>
+            </div>
+        </div>
+    {% endblock content %}
+
+    {% block extra_body %}
+    {% endblock extra_body %}
+{% endblock body %}

@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Histórico de Transações</title>
+    
+    
+    <link rel="stylesheet" href="{% static 'dashboard/metas.css' %}">
+    
+    
+    <link rel="stylesheet" href="{% static 'dashboard/historico.css' %}">
+</head>
+<body>
+
+    {% block content %}
+<div class="container">
+    
+    <h1>Histórico de Transações</h1> 
+    
+    
+    <div class="filter-tabs">
+        <a href="{% url 'historico' %}" 
+           class="btn-filtro {% if filtro_ativo == 'todos' %}btn-ativo{% endif %}">
+            Todas
+        </a>
+        
+        <a href="{% url 'historico' %}?tipo=receita" 
+           class="btn-filtro {% if filtro_ativo == 'receita' %}btn-ativo{% endif %}">
+            Ganhos (Receitas)
+        </a>
+        
+        <a href="{% url 'historico' %}?tipo=despesa" 
+           class="btn-filtro {% if filtro_ativo == 'despesa' %}btn-ativo{% endif %}">
+            Gastos (Despesas)
+        </a>
+    </div>
+
+    {% if transacoes %}
+        
+        <div class="historico-card">
+            
+            <div class="table-responsive">
+                
+                <table class="historico-tabela">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Tipo</th>
+                            <th>Valor</th>
+                            <th>Categoria</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for transacao in transacoes %}
+                        <tr>
+                            <td>{{ transacao.data|date:"d/m/Y" }}</td> 
+                            
+                            <td>
+                               
+                                {% if transacao.tipo == 'receita' %}
+                                    <span class="tag-receita">Receita</span>
+                                {% else %}
+                                    <span class="tag-despesa">Despesa</span>
+                                {% endif %}
+                            </td>
+                            
+                            <td>
+                                {% if transacao.tipo == 'receita' %}
+                                    <span class="text-success">+R$ {{ transacao.valor|floatformat:2 }}</span>
+                                {% else %}
+                                    <span class="text-danger">-R$ {{ transacao.valor|floatformat:2 }}</span>
+                                {% endif %}
+                            </td>
+                            
+                            <td>{{ transacao.categoria }}</td>
+                            <td>{{ transacao.descricao|default:"-" }}</td> 
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% else %}
+        <p class="alerta-info">
+            Nenhuma transação encontrada.
+            {% if filtro_ativo != 'todos' %}
+                Tente selecionar <a href="{% url 'historico' %}">Todas</a> as transações.
+            {% endif %}
+        </p>
+    {% endif %}
+</div>
+{% endblock %}
+
+</body>
+</html>
