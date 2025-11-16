@@ -1,0 +1,16 @@
+# Ambiente Virtual
+venv/
+.venv/
+env/
+
+# Arquivos de Cache e Build
+__pycache__/
+*.pyc
+*.pyd
+*.egg
+
+# Banco de Dados (SQLite)
+db.sqlite3
+
+# Outros arquivos do Django
+/static_root/
