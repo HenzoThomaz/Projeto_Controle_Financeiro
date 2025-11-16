@@ -1,0 +1,153 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  background: #1a1a1a;       
+  color: #fff;               
+}
+
+header {
+  display: flex;
+  align-items: center;
+  padding: 5px 20px;
+  background: #6100bb;       
+}
+
+header img {
+  height: 50px;
+  width: auto;
+}
+
+header h1 {
+  margin-left: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 20px;
+  padding: 20px;
+}
+
+.card {
+  background: rgba(0,0,0,0.4); 
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+}
+
+.card h2 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: #fff;
+}
+
+.transacao input, .transacao select {
+  width: 100%;
+  padding: 8px;
+  margin: 6px 0;
+  border: 1px solid #bbb;    
+  border-radius: 8px;
+  background: #1a1a1a;       
+  color: #fff;
+}
+
+.transacao .btn {
+  background: #8706ff;     
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.transacao .limpar {
+  cursor: pointer;
+  font-size: 16px;
+  float: right;
+  color: #bbb;
+}
+
+.resumo {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.resumo-card {
+  flex: 1;
+  text-align: center;
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 10px;
+  background: rgba(0,0,0,0.4);
+}
+
+.resumo-card p {
+  margin: 0;
+  font-size: 14px;
+  color: #bbb;
+}
+
+.resumo-card h3 {
+  margin: 5px 0 0 0;
+  font-size: 18px;
+}
+
+.receita h3 { color: #4caf50; }  /* verde ainda pode ajudar visualmente */
+.despesa h3 { color: #f44336; }  /* vermelho para despesa */
+.saldo h3 { color: #8706ff; }    /* roxo para saldo */
+
+.graficos-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.graficos-grafico {
+  flex: 1 1 200px;
+  min-width: 100px;
+}
+
+.graficos canvas {
+  width: 100% !important;
+  height: 350px !important;
+}
+
+.placeholder {
+  text-align: center;
+  color: #bbb;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th, table td {
+  padding: 10px;
+  border-bottom: 1px solid #bbb;
+  text-align: center;
+}
+
+table th {
+  background: #6100bb;
+  color: #fff;
+}
+
+table td.receita {
+  color: #4caf50;
+  font-weight: bold;
+}
+
+table td.despesa {
+  color: #f44336;
+  font-weight: bold;
+}
