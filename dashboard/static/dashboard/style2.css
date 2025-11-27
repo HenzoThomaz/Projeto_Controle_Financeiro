@@ -41,12 +41,15 @@
   .usermeta{line-height:1}
   .usermeta .name{font-weight:700}
   .usermeta .role{color:var(--muted);font-size:13px}
+  
 
   nav.menu{display:flex;flex-direction:column;gap:6px;margin-top:12px}
   nav.menu button{background:transparent;border:0;padding:10px;border-radius:10px;text-align:left;color: #eaeaf6;display:flex;align-items:center;gap:10px}
   nav.menu button:hover{background:linear-gradient(90deg, rgba(111,43,217,0.06), rgba(184,107,255,0.02));transform:translateX(6px);transition:all .18s}
   nav.menu button.active{background:linear-gradient(90deg, rgba(111,43,217,0.12), rgba(184,107,255,0.04));box-shadow:inset 0 1px 0 rgba(255,255,255,0.02)}
-
+  .menu button a {
+  text-decoration: none !important;
+}
   .side-section{margin-top:16px}
   .side-section input[type=file]{display:none}
   .muted{color:var(--muted)}

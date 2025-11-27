@@ -1,0 +1,102 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #1a002b, #3a0088);
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+h2, h3 {
+  color: #fff; /* Azul vibrante (formato hexadecimal) */
+}
+p {
+  color: #fff;
+}
+a {
+  text-decoration: none;
+    color: #366cad;
+}
+.signup-container {
+    background: #0d0d0d;
+    width: 450px;
+    padding: 45px;
+    border-radius: 18px;
+    box-shadow: 0px 0px 40px rgba(140, 0, 255, 0.4);
+    text-align: center;
+}
+
+.signup-container img {
+    width: 70px;
+    margin-bottom: 15px;
+}
+
+.signup-container h1 {
+    color: #fff;
+    margin-bottom: 10px;
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.signup-container p {
+    color: #bbb;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+label {
+    color: #ddd;
+    text-align: left;
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #333;
+    background: #111;
+    color: #fff;
+    outline: none;
+    transition: .2s;
+}
+
+input:focus {
+    border-color: #b066ff;
+}
+
+button {
+    width: 100%;
+    padding: 13px;
+    background: #a43dff;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+button:hover {
+    background: #bb69ff;
+    box-shadow: 0px 0px 12px #b366ff;
+}
+
+.login-text {
+    margin-top: 18px;
+    font-size: 14px;
+    color: #ddd;
+}
+.login-text a {
+    color: #c77dff;
+    text-decoration: none;
+}
+.login-text a:hover {
+    text-decoration: underline;
+}

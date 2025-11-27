@@ -1,47 +1,48 @@
-{% extends "account/base_entrance.html" %}
-{% load allauth i18n %}
 {% load i18n static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
 
-{% block head_title %}
-    {% trans "Signup" %}
-{% endblock head_title %}
-{% block content %}
-    {% element h1 %}
-        {% trans "Sign Up" %}
-    {% endelement %}
-    {% setvar link %}
-        <a href="{{ login_url }}">
-        {% endsetvar %}
-        {% setvar end_link %}
-        </a>
-    {% endsetvar %}
-    {% element p %}
-        {% blocktranslate %}Already have an account? Then please {{ link }}sign in{{ end_link }}.{% endblocktranslate %}
-    {% endelement %}
-    {% if not SOCIALACCOUNT_ONLY %}
-        {% url 'account_signup' as action_url %}
-        {% element form form=form method="post" action=action_url tags="entrance,signup" %}
-            {% slot body %}
-                {% csrf_token %}
-                {% element fields form=form unlabeled=True %}
-                {% endelement %}
-                {{ redirect_field }}
-            {% endslot %}
-            {% slot actions %}
-                {% element button tags="prominent,signup" type="submit" %}
-                    {% trans "Sign Up" %}
-                {% endelement %}
-            {% endslot %}
-        {% endelement %}
-    {% endif %}
-    {% if PASSKEY_SIGNUP_ENABLED %}
-        {% element hr %}
-        {% endelement %}
-        {% element button href=signup_by_passkey_url tags="prominent,signup,outline,primary" %}
-            {% trans "Sign up using a passkey" %}
-        {% endelement %}
-    {% endif %}
-    {% if SOCIALACCOUNT_ENABLED %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'account/cadastro.css' %}">
+{% endblock extra_head %}
+
+    
+    <meta charset="UTF-8">
+    <title>Cadastrar-se</title>
+    
+</head>
+<body>
+
+<div class="container">
+    <h2>Cadastrar-se</h2>
+    <p class="subtitle">Crie sua conta</p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label>Email</label>
+        {{ form.email }}
+
+        <label>Nome de usuário</label>
+        {{ form.username }}
+
+        <label>Senha</label>
+        {{ form.password1 }}
+
+        <label>Senha (novamente)</label>
+        {{ form.password2 }}
+
+        {% block content %}
+        {% if SOCIALACCOUNT_ENABLED %}
         {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
-    {% endif %}
-{% endblock content %}
+        {% endif %}
+        {% endblock content %}
+        <button type="submit">Cadastrar-se</button>
+    </form>
+    <h3>Já tem uma conta? <a href="{% url 'account_login' %}">Entrar</a></h3>
+
+</div>
+
+</body>
+</html>
