@@ -19,7 +19,7 @@ a {
   text-decoration: none;
     color: #366cad;
 }
-.signup-container {
+.container {
     background: #0d0d0d;
     width: 450px;
     padding: 45px;
@@ -28,19 +28,19 @@ a {
     text-align: center;
 }
 
-.signup-container img {
+.container img {
     width: 70px;
     margin-bottom: 15px;
 }
 
-.signup-container h1 {
+.container h1 {
     color: #fff;
     margin-bottom: 10px;
     font-size: 26px;
     font-weight: 600;
 }
 
-.signup-container p {
+.container p {
     color: #bbb;
     font-size: 14px;
     margin-bottom: 20px;
@@ -99,4 +99,32 @@ button:hover {
 }
 .login-text a:hover {
     text-decoration: underline;
+}
+h3 {
+  margin-top: 25px;
+  color: #bdbdbd;
+}
+
+h3 a {
+  color: #b96bff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+h3 a:hover {
+  color: #fff;
+  text-shadow: 0 0 8px #b96bff;
+}
+.auth-container {
+  background: rgba(15, 15, 15, 0.95);
+  backdrop-filter: blur(12px);
+  padding: 55px 60px;
+  border-radius: 22px;
+  box-shadow: 0 10px 40px rgba(80, 0, 150, 0.6);
+  width: 400px;
+  text-align: center;
+  border: 1px solid rgba(140, 50, 255, 0.2);
+  position: relative;
+  animation: pop-in 0.6s ease;
 }

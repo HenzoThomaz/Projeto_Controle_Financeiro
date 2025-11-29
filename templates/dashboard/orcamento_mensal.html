@@ -31,20 +31,18 @@
         </div>
         
         {% if dados.alerta_gasto %}
-            <p class="alerta">**Meta Ultrapassada!** Faltam: R$ {{ dados.restante|floatformat:2|slice:"1:" }}</p>
+            <p class="alerta">Meta Ultrapassada!  </p>
         {% else %}
             <p>Restante: R$ {{ dados.restante|floatformat:2 }}</p>
         {% endif %}
 
         <a href="{% url 'editar_meta_orcamento' dados.meta_id %}" class="btn-editar">
-            Alterar Meta
+            Alterar Limite
         </a>
     </div>
     {% endfor %}
 </div>
   <main id="listaCategorias"></main>
-  <button id="addCategoriaBtn" onclick="novaCategoria()">
-    <i class="fa fa-plus"></i>
-  </button>
+   
 </body>
 </html>

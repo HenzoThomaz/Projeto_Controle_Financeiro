@@ -1,15 +1,36 @@
-{% load i18n %}
-{% load allauth %}
 {% load socialaccount %}
-{% get_providers as socialaccount_providers %}
-{% if socialaccount_providers %}
-    {% if not SOCIALACCOUNT_ONLY %}
-        {% element hr %}
-        {% endelement %}
-        {% element h2 %}
-            {% translate "Or use a third-party" %}
-        {% endelement %}
-    {% endif %}
-    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-    {% include "socialaccount/snippets/login_extra.html" %}
-{% endif %}
+
+<style>
+    /* Estilização integrada */
+    .btn-google {
+        display: inline-flex; 
+        align-items: center; 
+        padding: 10px 20px;
+        background-color: #23272b; 
+        color: white !important; 
+        text-align: center;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-top: 15px;
+    }
+
+    .btn-google:hover {
+        background-color: #343a40; 
+        text-decoration: none;
+    }
+
+    .btn-google img {
+        vertical-align: middle;
+        margin-right: 8px; 
+    }
+</style>
+
+<a href="{% provider_login_url "google" method="oauth2" %}" class="btn btn-google">
+    <img src="https://img.icons8.com/color/20/000000/google-logo.png" alt="Logo do Google">
+    Entrar com Google
+</a>

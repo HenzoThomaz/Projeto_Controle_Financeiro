@@ -1,3 +1,5 @@
+/* Estilos existentes para body, header, e #addCategoriaBtn não precisam de alteração */
+
 body {
   background-color: #121212;
   font-family: 'Poppins', sans-serif;
@@ -18,6 +20,108 @@ header p {
   color: #b3b3b3;
   font-size: 0.95rem;
 }
+h2 {
+    color: #f8f8f8; /* Adicionado estilo para o título do orçamento mensal */
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+/* 1. SELETOR CORRIGIDO: Substitui .categoria-card por .card-orcamento */
+.orcamento-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Layout responsivo para os cards */
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.card-orcamento {
+    background-color: #1e1e1e;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+    transition: transform 0.2s, border 0.2s;
+    border: 1px solid #1e1e1e; /* Borda padrão */
+}
+
+.card-orcamento:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+}
+
+.card-orcamento h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.3rem;
+    color: #a46bf5; /* Cor da categoria */
+}
+.card-orcamento p {
+    margin: 5px 0;
+    font-size: 1rem;
+    color: #b3b3b3;
+}
+.card-orcamento strong {
+    color: white;
+}
+
+/* 2. ESTILOS DE ALERTA: Adicionados para as classes do HTML */
+
+/* Estilo para quando está perto do limite (80%) */
+.quase-la {
+    border-color: #f5a46b; /* Borda laranja/amarela */
+}
+.quase-la .progresso {
+    background-color: #f5a46b;
+}
+
+/* Estilo para quando a meta foi ultrapassada */
+.alerta-gasto {
+    border-color: #f56b6b; /* Borda vermelha */
+    background-color: #251a1a; /* Fundo levemente avermelhado */
+}
+.alerta-gasto .progresso {
+    background-color: #f56b6b;
+}
+.alerta-gasto .alerta {
+    color: #f56b6b;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* 3. SELETORES CORRIGIDOS: Substitui .progress-bar por .barra-progresso e .progress por .progresso */
+
+.barra-progresso {
+    background-color: #2a2a2a;
+    border-radius: 10px;
+    height: 10px;
+    margin: 15px 0;
+    overflow: hidden;
+}
+
+.progresso {
+    background-color: #a46bf5;
+    height: 100%;
+    border-radius: 10px;
+    /* A largura é definida inline no HTML (style="width: ...%") */
+    transition: width 0.4s ease-out; /* Adiciona animação à barra */
+}
+
+/* 4. SELETOR CORRIGIDO: Estilo para o link "Alterar Meta" */
+.btn-editar {
+    display: inline-block;
+    background-color: #a46bf5; /* Cor do botão */
+    color: white;
+    text-decoration: none; /* Remove sublinhado do link */
+    padding: 8px 15px;
+    border-radius: 6px;
+    margin-top: 15px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+.btn-editar:hover {
+    background-color: #8c56e9;
+}
+
+
+/* Estilo para o botão flutuante de adicionar categoria */
 #addCategoriaBtn {
   position: fixed;
   bottom: 30px;
@@ -37,92 +141,6 @@ header p {
   background-color: #8b57e6;
   transform: scale(1.1);
 }
-.categoria-card {
-  background-color: #1e1e1e;
-  border-radius: 16px;
-  padding: 20px;
-  margin: 15px 0;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
-  transition: transform 0.2s;
-}
-.categoria-card:hover {
-  transform: translateY(-3px);
-}
-.categoria-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.categoria-header h3 {
-  margin: 0;
-  font-size: 1.2rem;
-  color: #f8f8f8;
-}
-.categoria-header p {
-  margin: 5px 0 0;
-  font-size: 0.9rem;
-  color: #bbb;
-}
-.valor-editar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.valor {
-  font-size: 1rem;
-  color: #fff;
-}
-.editar-btn {
-  background: none;
-  border: none;
-  color: #ffffff;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: transform 0.2s, color 0.2s;
-}
-.editar-btn:hover {
-  transform: scale(1.2);
-  color: #b092b4;
-}
-.progress-bar {
-  background-color: #2a2a2a;
-  border-radius: 10px;
-  height: 8px;
-  margin-top: 15px;
-  overflow: hidden;
-}
-.progress {
-  background-color: #a46bf5;
-  height: 100%;
-  border-radius: 10px;
-  width: 60%;
-}
-.edit-form {
-  display: none;
-  margin-top: 15px;
-  background-color: #252525;
-  padding: 15px;
-  border-radius: 10px;
-}
-.edit-form input {
-  width: 100%;
-  background-color: #1e1e1e;
-  border: 1px solid #444;
-  color: white;
-  border-radius: 6px;
-  padding: 8px;
-  margin-bottom: 10px;
-}
-.edit-form button {
-  background-color: #a46bf5;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  color: white;
-  font-weight: 500;
-  transition: background 0.2s;
-}
-.edit-form button:hover {
-  background-color: #8c56e9;
-}
+
+/* Manter os estilos não utilizados (como .categoria-card, .progress-bar) para referência ou futuras implementações */
+/* Removidos para manter o código limpo, mas eles eram os seletores desvinculados */

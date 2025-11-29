@@ -224,3 +224,47 @@ button:hover {
 .reset-container .back a:hover {
     text-decoration: underline;
 }
+
+/* 1. Ocultação do Link Original (Dentro do Formulário) */
+/* Usa o ID para ter alta especificidade, garantindo que o span original suma. */
+#id_password_helptext {
+    display: none !important;
+}
+/* Se houver algum elemento pai que ainda esteja ocupando espaço, 
+   o seletor :has() abaixo (se suportado) pode ser útil para eliminá-lo. */
+/* form :has(#id_password_helptext) {
+    display: none !important;
+} */
+
+
+/* 2. Estilização da Seção de Links (Onde seu link duplicado está) */
+.auth-links {
+    margin-top: 25px;
+    font-size: 14px;
+    color: #bdbdbd;
+    
+    /* Adiciona Flexbox para centralizar ou organizar os links */
+    display: flex; 
+    flex-direction: column; /* Organiza verticalmente */
+    align-items: center; /* Centraliza no eixo horizontal */
+    gap: 10px; /* Espaçamento entre os parágrafos de link */
+}
+
+/* Garante que os parágrafos internos não tenham margens estranhas */
+.auth-links p {
+    margin: 0;
+    padding: 0;
+}
+
+/* 3. Estilização do Link (Aplicada aos links dentro da seção .auth-links) */
+.auth-links a {
+    color: #b96bff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.auth-links a:hover {
+    color: #fff;
+    text-shadow: 0 0 8px #b96bff;
+}

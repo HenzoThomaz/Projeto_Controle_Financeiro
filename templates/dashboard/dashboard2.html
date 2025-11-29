@@ -21,25 +21,53 @@
       <div class="brand-info">
         <h1 id="brandName">Orça +</h1>
         <p class="muted" id="brandSub">Controle de Finanças Pessoais</p>
+        
       </div>
     </div>
+    
     <div class="top-actions">
   </header>
   <div class="layout">
     <aside class="sidebar">
       <div class="userbox">
-        <div class="avatar" id="avatarBtn">U</div>
         <div class="usermeta">
-          <div class="name" id="userName">Convidado</div>
-          <div class="role muted" id="userRole">Usuário</div>
-        </div>
-      </div>
+            <div class="name" id="userName">
+                {% if user.is_authenticated %}
+                Bem-vindo de volta, {{ user.get_full_name|default:user.username }}!
+                {% else %}
+                    Convidado
+                {% endif %}
+            </div>
+            <div class="role muted" id="userRole">
+                {% if user.is_authenticated %}
+                    {{ user.email }}
+                {% else %}
+                    Usuário
+                {% endif %}
+            </div>
+            
+            <div class="userbox">
+              <div class="usermeta">
+                  {% if user.is_authenticated %}
+                      <div class="user-actions"> 
+                          <form method="post" action="{% url 'account_logout' %}">
+                              {% csrf_token %}
+                              <button type="submit" class="logout-button">Sair</button>
+                          </form>
+                      </div>
+                  {% endif %}
+              </div>
+          </div>
 
+        </div>
+    </div>
 
       <nav class="menu" aria-label="Menu principal">
+        <h2>Menu</h2>
         <button data-view="dashboard"> <a href="{% url 'metas_financeiras' %}" class="btn">Metas</a></button>
         <button data-view="transactions"><a href="{% url 'dashboard_orcamento_mensal' %}" class="btn">Orçamento Mensal</a></button>
         <button data-view="reports"><a href="{% url 'historico' %}" class="btn">Historico</a></button>
+        
       </nav>
 
       

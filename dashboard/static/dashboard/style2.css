@@ -121,3 +121,27 @@ button[type="submit"]:hover {
 
   /* responsive */
   @media (max-width:1000px){ .layout{grid-template-columns:1fr} .search{width:100%} .avatar{width:56px;height:56px} }
+
+
+  
+.user-actions {
+    margin-top: 10px; 
+    clear: both; 
+}
+
+.logout-button {
+    background: none; 
+    color: #fff !important;
+    background-color: red !important; 
+    border: none; 
+    padding: 0; 
+    font-size: 0.9em;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.user-actions form {
+    margin: 0;
+    padding: 0;
+    display: inline; 
+}
